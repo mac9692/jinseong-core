@@ -1,4 +1,5 @@
-# AWS Certified Solutions Architect STUDY GUIDE ASSOCIATE (SAA-C03) EXAM 4/E - 벤 파이퍼, 데이비드 클린턴
+# AWS Certified Solutions Architect STUDY GUIDE 
+ASSOCIATE (SAA-C03) EXAM 4/E - 벤 파이퍼, 데이비드 클린턴
 ## 용어
 ```
 Elastic : 탄력있는, 신축성이 있는
