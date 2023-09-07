@@ -1,4 +1,4 @@
-# AWS Certified Solutions Architect STUDY GUIDE <br>
+# AWS Certified Solutions Architect STUDY GUIDE <span>
 ASSOCIATE (SAA-C03) EXAM 4/E - 벤 파이퍼, 데이비드 클린턴
 ## 용어
 ```
