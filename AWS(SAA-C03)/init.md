@@ -164,10 +164,27 @@ AWS 에서 가장 비싼 옵션이다. 실제 물리적인 서버를 받게 된�
 
 ## AWS 서비스
 ```
-Amazon Elastic Container Service(ECS)
-Amazon Elastic Kubernetes Service(EKS)
-Amazon Elastic Fargate
-Amazon Elastic Container Registry(ECR)
+Amazon Elastic Container Service(ECS) : Container용 클러스터를 관리하는 서비스.
+Amazon Elastic Kubernetes Service(EKS) : Docker 로 컨테이너화한 애플리케이션을 관리하는 오픈소스 쿠버네티스 클러스터를 관리하는 서비스.
+Amazon Elastic Fargate : 서버리스로 Container 를 관리하는 서비스.
+Amazon Elastic Container Registry(ECR) : AWS 에 도커 이미지를 저장하고 관리하는 서비스.
+AWS AppRunner : 사용자가 아무것도 몰라도 소스코드나 컨테이너 이미지만 가지고 앱을 배포하고 관리할 수 있는 서비스. 빠른 운영 배포 시 사용.
+```
+
+## Amazon Serverless 서비스
+```
+서버리스 개념 : 서버가 존재하지 않는다는 것 뿐만 아니라, 해당 서비스의 관리에 관하여 일체 신경쓰지 않는 경우도 서버리스이다.
+
+AWS Lambda
+DynamoDB
+AWS Cognito
+AWS API Gateway
+Amazon S3
+AWS SNS & SQS
+AWS Kinesis Data Firehose
+Aurora Serverless
+Step Function
+Fargate
 ```
 
 ## Best Practices
