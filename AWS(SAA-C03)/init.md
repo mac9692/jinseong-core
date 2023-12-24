@@ -164,11 +164,36 @@ AWS 에서 가장 비싼 옵션이다. 실제 물리적인 서버를 받게 된�
 
 ## AWS 서비스
 ```
+Lambda : 서버리스로 함수를 실행할 수 있는 서비스.
+CloudFront : 사용자의 요청과 응답(Viewer Request, Response) 을 수정하는데 사용하는 서비스. 고성능, 고확장성이 필요할 때, 사용자의 요청과 응답 수정에만 사용된다.
+ex) CDN
+Cognito : 외부의 웹과 모바일 앱 사용자에게 자격, 권한 및 인증을 부여하는 서비스.
+RDS :
+RDS Proxy : VPC 내의 RDS에 람다가 접근하다 보면, 수 많은 연결이 필요하다. 이 때 RDS 앞에서 람다의 요청을 모두 받고 풀링해주는 역할을 한다.
+DynamoDB : AWS 네이티브 기술, NoSQL DB, 트랜잭션 지원, 다중 AZ 복제 기능, 큰 객체를 저장할 때는 적합하지 않다.
+데이터의 유형과 구성 면에서 스키마를 빠르게 전개해야 할 때 사용하면 좋다.
+DynamoDB Accelerator(DAX) : DynamoDB 캐시 메모리로, 마이크로 초의 처리속도를 보여주는 서비스.
 Amazon Elastic Container Service(ECS) : Container용 클러스터를 관리하는 서비스.
 Amazon Elastic Kubernetes Service(EKS) : Docker 로 컨테이너화한 애플리케이션을 관리하는 오픈소스 쿠버네티스 클러스터를 관리하는 서비스.
 Amazon Elastic Fargate : 서버리스로 Container 를 관리하는 서비스.
 Amazon Elastic Container Registry(ECR) : AWS 에 도커 이미지를 저장하고 관리하는 서비스.
 AWS AppRunner : 사용자가 아무것도 몰라도 소스코드나 컨테이너 이미지만 가지고 앱을 배포하고 관리할 수 있는 서비스. 빠른 운영 배포 시 사용.
+
+CloudFormation : 코드형 인프라 기반 인프라 배포 서비스. 인프라 구조를 다이어그램으로 확인할 수도 있다.
+Amazon Simple Email Service(SES) : 이메일을 전세계로 안전하게 전송하는 서비스.
+Amazon PinPoint : 확장 가능한 양방향 인바운드 및 아웃바운드 마케팅 커뮤니케이션 서비스.
+SNS, SES 는 각 메시지의 대상, 내용, 전달 일정을 관리해야 하지만, PinPoint 는 서비스로 관리 가능하다.
+따라서 완벽한 마케팅 서비스를 이용하려면 SAS 및 SES 의 차세대 제품인 PinPoint를 사용해야 한다.
+SSM SessionManager : 인스턴스에 액세스하는 서비스. 적용하면 인스턴스의 22번 포트(SSH 전용) 를 열어 둘 필요가 사라진다.
+SSM SessionManager 보안 셸로 SSH 보안 키나 SSH 액세스 없이 접근하면 되기 때문이다.
+Cost Explorer : AWS 비용 및 시간에 따른 사용량을 시각화하고 관리하는 청구 서비스.
+Amazon Elastic Transcoder : 미디어 파일을 변환해주는 서비스. 변환해준 시간만큼 청구된다.
+AWS Batch : 시작시간과 종료시간이 정해져있는 배치 작업을 수행하기 위해 EC2 인스턴스를 동적으로 생성한다.
+장점은 배치 작업에 필요한 EC2 인스턴스 또는 스팟 인스턴스의 적절한 수를 자동으로 조절해주기 때문이다.
+람다와 배치의 차이 람다는 15분의 작업 제한 시간과 임시 디스크 공간 제한이 있는 서버리스 서비스이다.
+배치는 인스턴스에 의존하기 때문에 시간 제한이 없다. 스토리지도 인스턴스와 함께 제공되는 EBS 볼륨이나 인스턴스 스토어를 사용할 수 있다.
+Amazon Appflow : SaaS 와 AWS 사이에 데이터를 전송할 수 있는 완전 관리형 통합 서비스.
+AWS Amplify(증폭) : 웹 및 모바일 앱 개발 도구 서비스(AWS 서비스 모음집).
 ```
 
 ## Amazon Serverless 서비스
