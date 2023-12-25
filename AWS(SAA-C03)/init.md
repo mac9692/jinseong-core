@@ -164,6 +164,7 @@ AWS 에서 가장 비싼 옵션이다. 실제 물리적인 서버를 받게 된�
 
 ## AWS 서비스
 ```
+Global Accelorator : ALB 처럼 고정 IP 가 없는 서비스 앞에 둬서 고정 IP 를 제공하는 서비스.
 AWS Config : 규정을 설정하고, 규정 위반 발견 시 트리거하는 서비스.
 Lambda : 서버리스로 함수를 실행할 수 있는 서비스.
 CloudFront : 사용자의 요청과 응답(Viewer Request, Response) 을 수정하는데 사용하는 서비스. 고성능, 고확장성이 필요할 때, 사용자의 요청과 응답 수정에만 사용된다.
@@ -179,6 +180,9 @@ Amazon Elastic Kubernetes Service(EKS) : Docker 로 컨테이너화한 애플리
 Amazon Elastic Fargate : 서버리스로 Container 를 관리하는 서비스.
 Amazon Elastic Container Registry(ECR) : AWS 에 도커 이미지를 저장하고 관리하는 서비스.
 AWS AppRunner : 사용자가 아무것도 몰라도 소스코드나 컨테이너 이미지만 가지고 앱을 배포하고 관리할 수 있는 서비스. 빠른 운영 배포 시 사용.
+
+AWS Key Management Service(KMS) : 암호화 키를 관리해주는 서비스.
+KMS 를 사용한 모든 API 호출을 CloudTail 을 통해 알 수 있다.
 
 AWS Organizations : 다수의 AWS 계정을 동시에 관리할 수 있는 서비스. 관리 계정으로 조직에 속해있는 모든 계정의 비용을 지불 가능.
 Service Control Policies(SCP) 를 사용해서 OU에 속해있는 계정들의 권한을 관리함.
@@ -196,6 +200,31 @@ SNS, SES 는 각 메시지의 대상, 내용, 전달 일정을 관리해야 하�
 따라서 완벽한 마케팅 서비스를 이용하려면 SAS 및 SES 의 차세대 제품인 PinPoint를 사용해야 한다.
 SSM SessionManager : 인스턴스에 액세스하는 서비스. 적용하면 인스턴스의 22번 포트(SSH 전용) 를 열어 둘 필요가 사라진다.
 SSM SessionManager 보안 셸로 SSH 보안 키나 SSH 액세스 없이 접근하면 되기 때문이다.
+SSM ParameterStore : 구성 및 암호를 위한 보안 스토리지 서비스.
+SSM SecretManager : 암호관리 서비스. X일마다 강제로 암호를 교체함.
+AWS Certifciate Manager(ACM) : TLS 인증서를 AWS에서 프로비저닝, 관리 및 배포하는 서비스. 인증서 만료 60일 전에 자동으로 갱신해주므로 편리함.
+AWS Web Application Firewall(WAF) : 7계층(HTTP)에서 일어나는 웹 취약점 공격을 방어하는 서비스. 여기서도 IP 당 요청 수를 제한하여 DDos 공격을 보호할 수는 있다.
+AWS Shield : DDoS 공격으로부터 방어하는 서비스.
+Amazon GuardDuty : 지능형 위협 탐지를 이용해서 계정을 보호하는 서비스. 암호화폐 공격을 방어하기 위한 좋은 서비스.
+Amazon Inspector : 자동화된 보안 평가를 실행하는 서비스.
+Amazon Macie : 완벽히 관리되는 데이터 보안 및 데이터 프라이버시 서비스. 머신러닝과 패턴 매칭을 이용해서 AWS에 있는 민감한 데이터(개인식별정보 등)를 발견하고 보호한다.
+
+[VPC] : 단일 리전 당 5개까지 가능하지만, 엄격하게 제한두는건 아니라 늘릴 수 있음. VPC 마다 할당된 CIDR 은 5개이다. 최소 크기는 /28, 최대 크기는 /16
+Classless Inter-Domain Routing(CIDR) : IP 주소를 할당하는 방법으로 단순한 IP 범위를 정의하는 데 도움을 준다.
+/0, /8, /16, /24, /32 로 숫자가 커질수록 조금의 IP만 할당 가능하다. (/32 => 2의 0승 이므로 1개) (/24 => 2의 8승 이므로 256개 ) (/0 => 2의 32승이므로 IPv4 전부를 지칭)
+서브넷 : VPC 내부에 있는 IPv4 주소의 부분 범위. AWS 는 각 서브넷의 첫 4개, 마지막 1개의 주소를 사용한다. 따라서 항상 총 사용가능한 IP 개수에서 -5를 해야 한다.
+인터넷게이트웨이(IGW) : VPC 의 리소스를 인터넷에 연결하도록 허용하는 서비스를 말한다. VPC 는 인터넷 게이트웨이 하나에만 연결된다. 반대도 마찬가지.
+Bastion Host : 사용자가 Private VPC 내의 EC2 인스턴스에 접근하고 싶을 때, 이 Bastion Host(EC2 인스턴스) 는 public VPC 에 위치하고,
+사용자는 Bastion Host 에 SSH 접근하고, Bastion Host 는 private VPC 내의 인스턴스에 SSH 접근한다.
+NAT Instance : NAT(Network Address Translation) 네트워크 주소 변환, private subnet EC2 인스턴스가 인터넷(IGW)에 연결되도록 허용합니다.
+public subnet 에서 실행되어야 하고, public <-> private subnet 을 연결합니다.
+NAT Gateway : 서비스 지원을 종료한 NAT Instance 의 업그레이드 버전. 관리할 필요없는 NAT 인스턴스. 고가용성을 위해서는 AZ 별로 생성.
+Network Access Control List(NACL) : 서브넷마다 하나의 NACL이 존재하고, 1~32766 개의 규칙이 있고 낮은 숫자의 규칙이 가장 중요도가 높다. * 가 가장 마지막.
+서브넷이 새로 만들어지면 기본 NACL 이 생성되고, 기본적으로 모든 트래픽의 출입을 허용한다.
+Ephemeral Ports : 클라이언트에서 서버에 요청 시 임시적으로 열리는 Port
+VPC Peering : 두 VPC 간에 발생하며 전이되지 않습니다. 서로 다른 두 VPC 가 통신하려면 VPC Peering 을 활성화해야합니다.
+또한 각자의 라우팅테이블에 서로의 CIDR 을 등록해야합니다.
+
 Cost Explorer : AWS 비용 및 시간에 따른 사용량을 시각화하고 관리하는 청구 서비스.
 Amazon Elastic Transcoder : 미디어 파일을 변환해주는 서비스. 변환해준 시간만큼 청구된다.
 AWS Batch : 시작시간과 종료시간이 정해져있는 배치 작업을 수행하기 위해 EC2 인스턴스를 동적으로 생성한다.
