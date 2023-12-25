@@ -164,6 +164,8 @@ AWS 에서 가장 비싼 옵션이다. 실제 물리적인 서버를 받게 된�
 
 ## AWS 서비스
 ```
+IAM Role 은 서비스에 부여되야 하고, IAM Policy 는 사용자나 그룹에 적용되어야 한다.
+
 Global Accelorator : ALB 처럼 고정 IP 가 없는 서비스 앞에 둬서 고정 IP 를 제공하는 서비스.
 AWS Config : 규정을 설정하고, 규정 위반 발견 시 트리거하는 서비스.
 Lambda : 서버리스로 함수를 실행할 수 있는 서비스.
@@ -180,9 +182,16 @@ Amazon Elastic Kubernetes Service(EKS) : Docker 로 컨테이너화한 애플리
 Amazon Elastic Fargate : 서버리스로 Container 를 관리하는 서비스.
 Amazon Elastic Container Registry(ECR) : AWS 에 도커 이미지를 저장하고 관리하는 서비스.
 AWS AppRunner : 사용자가 아무것도 몰라도 소스코드나 컨테이너 이미지만 가지고 앱을 배포하고 관리할 수 있는 서비스. 빠른 운영 배포 시 사용.
-
 AWS Key Management Service(KMS) : 암호화 키를 관리해주는 서비스.
 KMS 를 사용한 모든 API 호출을 CloudTail 을 통해 알 수 있다.
+
+[데이터 & 분석]
+Amazon Athena : S3 버킷에 저장된 데이터 분석에 사용하는 서버리스 쿼리 서비스. 퀵사이트와 함께 사용하는 경우가 많다.(시각화를 위해)
+Amazon RedShift : 데이터베이스이자 분석 엔진. PostgreSQL 기반으로 분석과 데이터웨어하우스에 사용된다.
+데이터를 레드시프트로 옮기고 분석을 하는 개념.
+Athena에는 없는 인덱스가 있어서 조인과 통합 성능이 더좋다.
+Amazon QuickSight : 소유한 데이터소스를 연결하여 대시보드를 생성하고 시각화하여 비즈니스 분석하는 서비스.
+Amazon Glue : 추출과 변환 로드(ETL) 서비스.
 
 AWS Organizations : 다수의 AWS 계정을 동시에 관리할 수 있는 서비스. 관리 계정으로 조직에 속해있는 모든 계정의 비용을 지불 가능.
 Service Control Policies(SCP) 를 사용해서 OU에 속해있는 계정들의 권한을 관리함.
@@ -201,7 +210,7 @@ SNS, SES 는 각 메시지의 대상, 내용, 전달 일정을 관리해야 하�
 SSM SessionManager : 인스턴스에 액세스하는 서비스. 적용하면 인스턴스의 22번 포트(SSH 전용) 를 열어 둘 필요가 사라진다.
 SSM SessionManager 보안 셸로 SSH 보안 키나 SSH 액세스 없이 접근하면 되기 때문이다.
 SSM ParameterStore : 구성 및 암호를 위한 보안 스토리지 서비스.
-SSM SecretManager : 암호관리 서비스. X일마다 강제로 암호를 교체함.
+SSM SecretManager : 자격증명 관리 서비스. X일마다 강제로 암호를 교체함.
 AWS Certifciate Manager(ACM) : TLS 인증서를 AWS에서 프로비저닝, 관리 및 배포하는 서비스. 인증서 만료 60일 전에 자동으로 갱신해주므로 편리함.
 AWS Web Application Firewall(WAF) : 7계층(HTTP)에서 일어나는 웹 취약점 공격을 방어하는 서비스. 여기서도 IP 당 요청 수를 제한하여 DDos 공격을 보호할 수는 있다.
 AWS Shield : DDoS 공격으로부터 방어하는 서비스.
@@ -209,10 +218,10 @@ Amazon GuardDuty : 지능형 위협 탐지를 이용해서 계정을 보호하�
 Amazon Inspector : 자동화된 보안 평가를 실행하는 서비스.
 Amazon Macie : 완벽히 관리되는 데이터 보안 및 데이터 프라이버시 서비스. 머신러닝과 패턴 매칭을 이용해서 AWS에 있는 민감한 데이터(개인식별정보 등)를 발견하고 보호한다.
 
-[VPC] : 단일 리전 당 5개까지 가능하지만, 엄격하게 제한두는건 아니라 늘릴 수 있음. VPC 마다 할당된 CIDR 은 5개이다. 최소 크기는 /28, 최대 크기는 /16
+Virtual Private Cloud[VPC] : 단일 리전 당 5개까지 가능하지만, 엄격하게 제한두는건 아니라 늘릴 수 있음. VPC 마다 할당된 CIDR 은 5개이다. 최소 크기는 /28, 최대 크기는 /16
 Classless Inter-Domain Routing(CIDR) : IP 주소를 할당하는 방법으로 단순한 IP 범위를 정의하는 데 도움을 준다.
 /0, /8, /16, /24, /32 로 숫자가 커질수록 조금의 IP만 할당 가능하다. (/32 => 2의 0승 이므로 1개) (/24 => 2의 8승 이므로 256개 ) (/0 => 2의 32승이므로 IPv4 전부를 지칭)
-서브넷 : VPC 내부에 있는 IPv4 주소의 부분 범위. AWS 는 각 서브넷의 첫 4개, 마지막 1개의 주소를 사용한다. 따라서 항상 총 사용가능한 IP 개수에서 -5를 해야 한다.
+서브넷 : VPC 내부에 있는 IPv4 주소의 부분 범위. AZ와 연계되고 AWS 는 각 서브넷의 첫 4개, 마지막 1개의 주소를 사용한다. 따라서 항상 총 사용가능한 IP 개수에서 -5를 해야 한다.
 인터넷게이트웨이(IGW) : VPC 의 리소스를 인터넷에 연결하도록 허용하는 서비스를 말한다. VPC 는 인터넷 게이트웨이 하나에만 연결된다. 반대도 마찬가지.
 Bastion Host : 사용자가 Private VPC 내의 EC2 인스턴스에 접근하고 싶을 때, 이 Bastion Host(EC2 인스턴스) 는 public VPC 에 위치하고,
 사용자는 Bastion Host 에 SSH 접근하고, Bastion Host 는 private VPC 내의 인스턴스에 SSH 접근한다.
@@ -224,6 +233,22 @@ Network Access Control List(NACL) : 서브넷마다 하나의 NACL이 존재하�
 Ephemeral Ports : 클라이언트에서 서버에 요청 시 임시적으로 열리는 Port
 VPC Peering : 두 VPC 간에 발생하며 전이되지 않습니다. 서로 다른 두 VPC 가 통신하려면 VPC Peering 을 활성화해야합니다.
 또한 각자의 라우팅테이블에 서로의 CIDR 을 등록해야합니다.
+VPC Endpoints(AWS PrivateLink) : 퍼블릭 네트워크 연결없이 프라이빗 네트워크를 통해 AWS 서비스에 접근 가능하다.
+물론 인터넷 게이트웨이, NAT 게이트웨이 모두 필요없다.
+VPC Flow Logs : IP 트래픽에서 정보를 얻는 서비스. VPC 에서 일어나는 문제를 모니터링할 수 있다.
+VPC Traffic Mirroring : VPC 에서 네트워크 트래픽을 수집하고 검사하되 방해하지 않는 방식으로 실행되는 서비스
+Site-to-site VPN : VPC 를 데이터센터와 연결하는 방법. 이 방법은 Public Internet을 통하는 방법이다.
+Vitual Private Gateway(VGW) : 고객의 데이터센터와 VPC 를 연결할 때 VPC 내부에 존재하는 게이트웨이 서비스. 
+Customer Gateway(CGW) : 고객 측에서 갖춰야 할 소프트웨어 혹은 물리적 장치 
+VGW 1개와 CGW 다수가 연결되면 VPN CloundHub 이다.
+Direct Connect(DX) : 원격 네트워크로부터 VPC 로의 전용 프라이빗 연결 서비스이다. 완전 Private Internet 을 이용.
+고객 측 데이터센터에서 Private Network 로 접근하는 것이니 VGW에 연결해야 하는데
+이 때 고객 측 데이터센터 근처에 AWS Direct Connect Location 의 설치가 필요하다. 이게 설치 기간이 한달 넘게 걸린다.
+Direct Connect Gateway : 이 때 다른 리전의 VPC에 까지 접근하고 싶으면 Direct Connect Gateway 가 필요하다. 
+Transit Gateway : VPC 간 연결을 위한 VPC Peering 도 그렇고, 데이터센터와의 연결도 그렇고
+VPC 연결이 너무 복잡해짐에 따라 연결을 중앙에서 전이하는 서비스가 생겼다.
+Egress-only Internet Gateway : IPv6 트래픽에만 사용되며, NAT Gateway 와 비슷하다. 하지만 클라이언트에서 역으로 private VPC 로의 접근은 불가능하다.
+AWS Network Firewall : 전체 VPC 를 방화벽으로 보호하는 서비스. 계층 3에서 계층 7까지 보호
 
 Cost Explorer : AWS 비용 및 시간에 따른 사용량을 시각화하고 관리하는 청구 서비스.
 Amazon Elastic Transcoder : 미디어 파일을 변환해주는 서비스. 변환해준 시간만큼 청구된다.
